@@ -1,5 +1,5 @@
 import conf from '../conf/conf.js';
-import { Client, Account, ID, Databases, Storage, Query } from "appwrite";
+import { Client, ID, Databases, Storage, Query } from "appwrite";
 
 export class Service {
     client = new Client();
@@ -14,7 +14,7 @@ export class Service {
         this.databases = new Databases(this.client);
         this.storage = new Storage(this.client);
     }
-
+    //blog related sevices
     async createPost({ title, slug, content, image, status, user_id }) {
         try {
             return await this.databases.createDocument(conf.appwriteDatabaseId, conf.appwriteCollectionId, slug, {
@@ -87,12 +87,13 @@ export class Service {
 
     }
 
+    //file handling here
 
     async uploadFile(file) {
 
         try {
 
-            return await this.bucket.createFile(conf.appwriteBucketId, ID.unique(), file);
+            return await this.storage.createFile(conf.appwriteBucketId, ID.unique(), file);
         }
         catch (error) {
             console.log(error);
@@ -130,4 +131,4 @@ export class Service {
 }
 const service = new Service();
 
-export default Service;
+export default service;
