@@ -30,7 +30,7 @@ function PostForm({ post }) {
                 ...data,
                 featuredImage: file ? file.$id : undefined
             })
-            if (dbpost) {
+            if (dbPost) {
                 navigate(`/post/${dbPost.$id}`)
             }
 
