@@ -1,36 +1,30 @@
 import React, { useState } from 'react'
 import authService from '../appwrite/auth'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { login } from '../store/authSlice'
-import { Button, Input, Logo } from './index'
+import { Button, Input, Logo } from './index.js'
+import { useDispatch } from 'react-redux'
+import { useForm } from 'react-hook-form'
 
-function SignUp() {
+function Signup() {
     const navigate = useNavigate()
+    const [error, setError] = useState("")
     const dispatch = useDispatch()
-    const [error, setError] = useState('')
-    const [register, handleSubmit] = useForm()
+    const { register, handleSubmit } = useForm()
 
     const create = async (data) => {
-        setError('')
+        setError("")
         try {
             const userData = await authService.createAccount(data)
-
             if (userData) {
                 const userData = await authService.getCurrentUser()
-                if (userData) {
-                    dispatch(login(userData))
-                    navigate('/')
-                }
+                if (userData) dispatch(login(userData));
+                navigate("/")
             }
-        }
-        catch (error) {
+        } catch (error) {
             setError(error.message)
         }
-
-
     }
-
 
     return (
         <div className="flex items-center justify-center">
@@ -50,18 +44,17 @@ function SignUp() {
                         Sign In
                     </Link>
                 </p>
-                {error && <p className="text-red-500 text-center">{error}</p>}
+                {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 
                 <form onSubmit={handleSubmit(create)}>
                     <div className='space-y-5'>
                         <Input
-                            label='Full Name'
-                            placeholder='Enter your full name'
-                            {...register('name', { required: true })}
-
-
+                            label="Full Name: "
+                            placeholder="Enter your full name"
+                            {...register("name", {
+                                required: true,
+                            })}
                         />
-
                         <Input
                             label="Email: "
                             placeholder="Enter your email"
@@ -85,14 +78,12 @@ function SignUp() {
                         <Button type="submit" className="w-full">
                             Create Account
                         </Button>
-
-
                     </div>
-
                 </form>
             </div>
+
         </div>
     )
 }
 
-export default SignUp
+export default Signup;

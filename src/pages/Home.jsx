@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import appwriteService from "../appwrite/config";
 import { Container, PostCard } from '../components'
-import appwriteService from "../appwrite/config"
+
 function Home() {
     const [posts, setPosts] = useState([])
+
     useEffect(() => {
-        appwriteService.getPosts([]).then((posts) => {
+        appwriteService.getPosts().then((posts) => {
             if (posts) {
                 setPosts(posts.documents)
             }
@@ -41,4 +43,4 @@ function Home() {
     )
 }
 
-export default Home
+export default Home;
