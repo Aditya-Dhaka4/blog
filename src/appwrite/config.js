@@ -91,19 +91,19 @@ export class Service {
 
             )
         } catch (error) {
-            console.log("Appwrite serive :: getPosts :: error", error);
+            console.log("Appwrite service :: getPosts :: error", error);
             return false
         }
     }
 
     // file upload service
 
-    async uploadFile(file) {
+    async uploadFile(fileId) {
         try {
             return await this.bucket.createFile(
                 conf.appwriteBucketId,
                 ID.unique(),
-                file
+                fileId
             )
         } catch (error) {
             console.log("Appwrite serive :: uploadFile :: error", error);
